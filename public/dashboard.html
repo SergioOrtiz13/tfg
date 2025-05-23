@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css"> <!-- Enlazamos el archivo CSS -->
+</head>
+<body>
+    <p id="user-info"></p>
+
+    <div class="sidebar">
+        <ul>
+            <li><a href="#">Mis Videos</a></li>
+            <li><a href="#" onclick="toggleConfigMenu()">Configuración</a></li>
+            <li><a href="comunidad.html">Comunidad</a></li>
+            <li><a href="#">Estadísticas</a></li>
+            <li><a href="mensajes.html">Mensajes</a></li>
+        </ul>
+    </div>
+    
+    <div id="config-menu" class="config-menu" style="display:none;"> 
+        <h3>Configuración</h3>
+        <label for="background-file">Sube un fondo (imagen o video):</label>
+        <input type="file" id="background-file" accept="image/*,video/mp4" />
+        <button onclick="applyLocalBackground()">Aplicar fondo</button>
+        <h3>Cambiar imagen</h3>
+        <label for="avatar-file">Sube una imagen de avatar:</label>
+        <input type="file" id="avatar-file" accept="image/*" />
+        <button onclick="applyAvatar()">Actualizar Avatar</button>
+    </div>
+    
+    <div class="content">
+        <nav class="navbar">
+            <div class="navbar-left">
+                <h1>Dashboard</h1>
+            </div>
+            <div class="navbar-right">
+                <div class="user-icon" onclick="toggleLogoutMenu()">
+                    <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Usuario" />
+                    <div id="logout-menu" class="logout-menu">
+                        <button onclick="logout()">Cerrar sesión</button>
+                        <button onclick="toggleUploadForm()">Subir video</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div id="upload-form" class="upload-form" style="display:none;">
+            <h3>Subir Video</h3>
+            <input type="file" id="video-file" />
+            <input type="text" id="video-title" placeholder="Título del video" />
+            <input type="text" id="video-description" placeholder="Descripción del video" />
+            <button onclick="uploadVideo()">Subir</button>
+            <button onclick="toggleUploadForm()">Cancelar</button>
+        </div>
+
+        <div class="video-list" id="video-list"></div>
+
+        <div class="dashboard-content">
+            <h2>Mis Videos</h2>
+            <div id="video-container"></div> 
+        </div>
+    </div>
+
+    <script src="video.js"></script> 
+    <script src="dashboard.js"></script> 
+</body>
+</html>

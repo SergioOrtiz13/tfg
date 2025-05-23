@@ -1,0 +1,364 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.form-container, .dashboard-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+h2 {
+    text-align: center;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+p {
+    text-align: center;
+}
+
+a {
+    color: #4CAF50;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    position: fixed;
+    height: 100%;
+    color: white;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+    z-index: 10;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 15px;
+    text-align: center;
+}
+
+.sidebar li:hover {
+    background-color: #444;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+}
+
+.navbar-left h1 {
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+.navbar-right {
+    position: relative;
+    margin-right: 20px;
+}
+
+.user-icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.user-icon img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+
+.logout-menu {
+    display: none;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logout-menu button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.logout-menu button:hover {
+    background-color: #d32f2f;
+}
+
+.logout-menu.show {
+    display: block;
+}
+
+.content {
+    margin-left: 250px;
+    margin-top: 80px;
+    padding: 20px;
+    width: calc(100% - 250px);
+}
+
+.dashboard-content {
+    margin-top: 20px;
+}
+
+#video-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    overflow-y: auto; /* Esto permite que los videos se desplacen si hay demasiados */
+    max-height: 400px; /* Limita la altura de la sección de videos */
+    width: 100%;
+}
+
+
+
+.video-list, #video-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+.video-item {
+    background-color: #181818;
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    overflow: hidden;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+}
+
+.video-item:hover {
+    transform: scale(1.02);
+}
+
+.video-item video {
+    width: 100%;
+    border-bottom: 1px solid #333;
+}
+
+.video-item h3 {
+    font-size: 1.1rem;
+    margin: 10px 12px 0;
+}
+
+.video-item p {
+    font-size: 0.9rem;
+    margin: 6px 12px 12px;
+    color: #ccc;
+}
+
+.video-item button {
+    margin: 0 12px 12px;
+    padding: 6px 12px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.video-item button:hover {
+    background-color: #cc0000;
+}
+
+
+/* Estilo para el formulario de subir videos */
+.form-upload {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+}
+
+.form-upload input {
+    margin-bottom: 10px;
+}
+
+/* Barra lateral */
+.sidebar {
+    position: fixed;  /* Asegura que la barra lateral permanezca fija */
+    top: 0;
+    left: 0;
+    width: 250px;  /* Ajusta el ancho según tus necesidades */
+    height: 100%;
+    background-color: #333;
+    padding-top: 20px;
+    z-index: 10;  /* Asegura que la barra lateral esté por encima de otros contenidos */
+}
+
+/* Estilo del enlace de configuración */
+.sidebar a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #575757;
+}
+
+/* Menú de configuración */
+.config-menu {
+    position: absolute;  /* Posiciona el menú de configuración sobre el contenido */
+    top: 0;  /* Alineado con el tope de la página */
+    left: 250px;  /* Se coloca justo al lado del sidebar (250px es el ancho de la barra lateral) */
+    width: 300px;  /* Ancho del menú de configuración */
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;  /* Inicialmente oculto */
+    z-index: 1000;  /* Asegura que el menú esté por encima del contenido */
+}
+
+/* Para que el contenido principal no se solape con el sidebar */
+.content {
+    margin-left: 250px;  /* Empuja el contenido hacia la derecha para que no se solape */
+}
+
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+    /* Para pantallas medianas (tablets y teléfonos en posición horizontal) */
+    
+    .sidebar {
+        width: 200px;
+        padding-top: 10px;
+    }
+
+    .navbar-left h1 {
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    .navbar-right {
+        margin-right: 10px;
+    }
+
+    /* Colapsar la sidebar en pantallas pequeñas */
+    .sidebar {
+        width: 200px;
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: -200px;
+        transition: left 0.3s;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .content {
+        margin-left: 0;
+        margin-top: 80px;
+        width: 100%;
+    }
+
+    /* Hacer que el formulario ocupe todo el ancho disponible */
+    .form-container, .dashboard-container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    /* Menú de cierre de sesión */
+    .logout-menu {
+        top: 25px;
+        right: 10px;
+    }
+
+    /* Barra de navegación superior */
+    .navbar {
+        padding: 10px;
+    }
+
+    .user-icon img {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+/* Estilos para pantallas pequeñas (móviles) */
+@media (max-width: 480px) {
+    .sidebar {
+        width: 150px;
+    }
+
+    .sidebar li {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .user-icon img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .navbar-left h1 {
+        font-size: 18px;
+    }
+    
+    .content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
