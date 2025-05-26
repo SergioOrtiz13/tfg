@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Registro</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+    <h1 class="main-title">Videoteca</h1>
+
     <div class="form-container">
         <h2>Registro de Usuario</h2>
-        <form id="register-form">
-            <input type="text" id="name" placeholder="Nombre" required>
-            <input type="email" id="email" placeholder="Correo Electrónico" required>
-            <input type="password" id="password" placeholder="Contraseña" required>
-            <button type="submit">Registrar</button>
+        <form id="register-form" class="form-columns">
+            <div class="form-left">
+                <input type="text" id="name" placeholder="Nombre" required />
+                <input type="email" id="email" placeholder="Correo Electrónico" required />
+                <input type="password" id="password" placeholder="Contraseña" required />
+                <button type="submit">Registrar</button>
+            </div>
+
+            <div class="form-description">
+                <h3>¿En que consiste esta videoteca?</h3>
+                <p>
+                    Esta videoteca colaborativa es una plataforma en línea donde los usuarios pueden subir,
+                    compartir y descubrir videos creados por otros. Tiene como objetivo crear
+                    una comunidad de creadores de contenido, permitiendo que los videos no solo sean consumidos,
+                    sino también compartidos y comentados, fomentando la interacción entre los usuarios.
+                </p>
+            </div>
         </form>
         <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
     </div>
@@ -21,17 +35,15 @@
     <script>
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            
+
             const response = await fetch('http://localhost:5000/register', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name, email, password })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password }),
             });
 
             const data = await response.json();

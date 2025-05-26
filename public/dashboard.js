@@ -8,7 +8,7 @@ if (!token) {
 fetch('http://localhost:5000/dashboard', {
     method: 'GET',
     headers: {
-        'Authorization': token 
+        'Authorization': token
     }
 })
 .then(response => response.json())
@@ -32,24 +32,20 @@ fetch('http://localhost:5000/dashboard', {
         window.location.href = 'login.html';
     }
 })
-
 .catch(error => {
     console.error('Error al acceder al Dashboard:', error);
     alert('Error en la conexión');
 });
-
 
 function toggleLogoutMenu() {
     const logoutMenu = document.getElementById('logout-menu');
     logoutMenu.classList.toggle('show');
 }
 
-
 function logout() {
     localStorage.removeItem('token'); 
     window.location.href = 'login.html'; 
 }
-
 
 function toggleUploadForm() {
     const form = document.getElementById('upload-form');
@@ -58,32 +54,32 @@ function toggleUploadForm() {
     logoutMenu.classList.remove('show');
 }
 
-
 function loadVideos() {
     fetch('http://localhost:5000/videos', {
         method: 'GET',
         headers: {
-            'Authorization': localStorage.getItem('token')
+            'Authorization': token
         }
     })
     .then(response => response.json())
     .then(data => {
         if (data.length > 0) {
             const videoContainer = document.getElementById('video-container');
+            videoContainer.innerHTML = ''; // limpiar antes de agregar
             data.forEach(video => {
                 const videoElement = document.createElement('div');
                 videoElement.classList.add('video-item');
                 videoElement.innerHTML = `
+                <h3>${video.title}</h3>
                     <video controls>
-        <source src="${video.videoUrl}" type="video/mp4">
-        Tu navegador no soporta el formato de video.
-    </video>
-    <div class="video-info">
-        <h3>${video.title}</h3>
-        <p>${video.description}</p>
-    </div>
-    <button onclick="shareVideo('${video._id}')">Compartir</button>
-`;
+                        <source src="${video.videoUrl}" type="video/mp4">
+                        Tu navegador no soporta el formato de video.
+                    </video>
+                    <div class="video-info">
+                        <p>${video.description}</p>
+                    </div>
+                    <button onclick="shareVideo('${video._id}')">Compartir</button>
+                `;
                 videoContainer.appendChild(videoElement);
             });
         } else {
@@ -96,21 +92,18 @@ function loadVideos() {
     });
 }
 
-
 loadVideos();
 
-document.querySelector('.sidebar li:nth-child(2) a').addEventListener('click', function(e) {
+document.querySelector('.sidebar li:nth-child() a').addEventListener('click', function(e) {
     e.preventDefault(); 
     const menu = document.getElementById('config-menu');
     menu.classList.toggle('show');
 });
 
-
 function changeBackground() {
     const url = document.getElementById('background-url').value;
     setBackground(url);
 }
-
 
 function toggleConfigMenu() {
     var configMenu = document.getElementById('config-menu');
@@ -118,53 +111,6 @@ function toggleConfigMenu() {
         configMenu.style.display = 'block'; 
     } else {
         configMenu.style.display = 'none'; 
-    }
-}
-
-
-function applyLocalBackground() {
-    var fileInput = document.getElementById('background-file');
-    var file = fileInput.files[0];
-    if (file) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            document.body.style.backgroundImage = 'url(' + e.target.result + ')';
-            document.body.style.backgroundSize = 'cover';
-        };
-        reader.readAsDataURL(file);
-    }
-}
-
-
-function setBackground(url) {
-    const body = document.body;
-    body.style.background = '';
-    body.style.backgroundImage = '';
-    const existingVideo = document.getElementById('bg-video');
-    if (existingVideo) existingVideo.remove();
-
-    if (url.endsWith('.mp4')) {
-       
-        const videoBg = document.createElement('video');
-        videoBg.id = 'bg-video';
-        videoBg.src = url;
-        videoBg.autoplay = true;
-        videoBg.loop = true;
-        videoBg.muted = true;
-        videoBg.style.position = 'fixed';
-        videoBg.style.top = '0';
-        videoBg.style.left = '0';
-        videoBg.style.width = '100%';
-        videoBg.style.height = '100%';
-        videoBg.style.objectFit = 'cover';
-        videoBg.style.zIndex = '-1';
-        document.body.prepend(videoBg);
-    } else {
-        
-        body.style.backgroundImage = `url(${url})`;
-        body.style.backgroundRepeat = 'no-repeat';
-        body.style.backgroundSize = 'cover';
-        body.style.backgroundPosition = 'center center';
     }
 }
 
@@ -183,7 +129,7 @@ function applyLocalBackground() {
     fetch('http://localhost:5000/api/user/background', {
         method: 'POST',
         headers: {
-            'Authorization': localStorage.getItem('token')
+            'Authorization': token
         },
         body: formData
     })
@@ -201,11 +147,45 @@ function applyLocalBackground() {
     });
 }
 
+function setBackground(url) {
+    const content = document.querySelector('.content');
+    if (!content) return;
+
+    content.style.background = '';
+    content.style.backgroundImage = '';
+
+    const existingVideo = document.getElementById('bg-video');
+    if (existingVideo) existingVideo.remove();
+
+    if (url.endsWith('.mp4')) {
+        const videoBg = document.createElement('video');
+        videoBg.id = 'bg-video';
+        videoBg.src = url;
+        videoBg.autoplay = true;
+        videoBg.loop = true;
+        videoBg.muted = true;
+        videoBg.style.position = 'absolute';
+        videoBg.style.top = '0';
+        videoBg.style.left = '0';
+        videoBg.style.width = '100%';
+        videoBg.style.height = '100%';
+        videoBg.style.objectFit = 'cover';
+        videoBg.style.zIndex = '-1';
+        videoBg.style.pointerEvents = 'none';
+        content.prepend(videoBg);
+    } else {
+        content.style.backgroundImage = `url(${url})`;
+        content.style.backgroundRepeat = 'no-repeat';
+        content.style.backgroundSize = 'cover';
+        content.style.backgroundPosition = 'center center';
+    }
+}
+
 function shareVideo(videoId) {
     fetch('http://localhost:5000/share-video', {
         method: 'POST',
         headers: {
-            'Authorization': localStorage.getItem('token'),
+            'Authorization': token,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ videoId })
@@ -217,37 +197,6 @@ function shareVideo(videoId) {
     .catch(error => {
         console.error('Error al compartir el video', error);
         alert('Error al compartir el video.');
-    });
-}
-
-function loadVideos() {
-    fetch('http://localhost:5000/videos', {
-        method: 'GET',
-        headers: {
-            'Authorization': localStorage.getItem('token')
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        const videoContainer = document.getElementById('video-container');
-        data.forEach(video => {
-            const videoElement = document.createElement('div');
-            videoElement.classList.add('video-item');
-            videoElement.innerHTML = `
-                <h3>${video.title}</h3>
-                <video width="300" controls>
-                    <source src="${video.videoUrl}" type="video/mp4">
-                    Tu navegador no soporta el formato de video.
-                </video>
-                <p>${video.description}</p>
-                <button onclick="shareVideo('${video._id}')">Compartir</button>
-            `;
-            videoContainer.appendChild(videoElement);
-        });
-    })
-    .catch(error => {
-        console.error('Error al cargar los videos', error);
-        alert('Error al cargar los videos.');
     });
 }
 
@@ -266,7 +215,7 @@ function applyAvatar() {
     fetch('http://localhost:5000/api/user/avatar', {
         method: 'POST',
         headers: {
-            'Authorization': localStorage.getItem('token')
+            'Authorization': token
         },
         body: formData
     })
@@ -274,10 +223,9 @@ function applyAvatar() {
     .then(data => {
         if (data.avatarUrl) {
             alert('Avatar actualizado correctamente.');
-            // Actualizamos la imagen del avatar en la UI
             const userIconImg = document.querySelector('.user-icon img');
             if (userIconImg) {
-                userIconImg.src = data.avatarUrl + '?t=' + new Date().getTime(); // evitar cache
+                userIconImg.src = data.avatarUrl + '?t=' + new Date().getTime();
             }
         } else {
             alert('No se pudo actualizar el avatar.');
@@ -290,3 +238,107 @@ function applyAvatar() {
 }
 
 
+// Agregamos las funciones que faltaban con el mismo estilo:
+
+function fetchCommunityVideos() {
+    fetch('http://localhost:5000/community-videos', {
+        method: 'GET',
+        headers: {
+            'Authorization': token
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const videoList = document.getElementById('community-video-list');
+        videoList.innerHTML = '';
+
+        data.forEach(video => {
+            const videoElement = document.createElement('div');
+            videoElement.classList.add('video-item');
+            videoElement.innerHTML = `
+                <h3>${video.title}</h3>
+                <p>Compartido por: ${video.userId.name}</p>
+                <video width="300" controls>
+                    <source src="${video.videoUrl}" type="video/mp4">
+                    Tu navegador no soporta el formato de video.
+                </video>
+                <button onclick="saveVideo('${video._id}', '${video.userId._id}')">Guardar</button>
+                <details>
+                    <summary>Enviar mensaje</summary>
+                    <textarea id="msg-${video._id}" rows="2" cols="40" placeholder="Escribe un mensaje..."></textarea>
+                    <br>
+                    <button onclick="sendMessage('${video._id}', '${video.userId._id}')">Enviar</button>
+                </details>
+            `;
+            videoList.appendChild(videoElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error al cargar los videos de la comunidad', error);
+        alert('Error al cargar los videos.');
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchCommunityVideos();
+});
+
+function saveVideo(videoId, userId) {
+    if (!token) {
+        alert('Necesitas iniciar sesión para guardar el video.');
+        return;
+    }
+
+    if (!videoId || !userId) {
+        alert('Faltan datos necesarios');
+        return;
+    }
+
+    fetch('http://localhost:5000/save-video', {
+        method: 'POST',
+        headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ videoId, userId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert('Video guardado correctamente');
+        } else {
+            alert('Error al guardar el video');
+        }
+    })
+    .catch(error => {
+        console.error('Error al guardar el video:', error);
+        alert('Error en la conexión');
+    });
+}
+
+function sendMessage(videoId, receiverId) {
+    const content = document.getElementById(`msg-${videoId}`).value;
+
+    if (!content.trim()) {
+        alert('El mensaje no puede estar vacío');
+        return;
+    }
+
+    fetch('http://localhost:5000/send-message', {
+        method: 'POST',
+        headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ videoId, receiverId, content })
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message || 'Mensaje enviado');
+        document.getElementById(`msg-${videoId}`).value = ''; // Limpiar textarea
+    })
+    .catch(error => {
+        console.error('Error al enviar mensaje', error);
+        alert('Error al enviar el mensaje');
+    });
+}

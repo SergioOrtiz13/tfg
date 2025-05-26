@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="style.css"> <!-- Enlazamos el archivo CSS -->
+    <link rel="stylesheet" href="dashboard.css"> <!-- Enlazamos el archivo CSS -->
 </head>
 <body>
     <p id="user-info"></p>
 
     <div class="sidebar">
+        <div class="navbar-left">
+                <h1>Dashboard</h1>
+            </div>
         <ul>
-            <li><a href="#">Mis Videos</a></li>
             <li><a href="#" onclick="toggleConfigMenu()">Configuración</a></li>
             <li><a href="comunidad.html">Comunidad</a></li>
             <li><a href="#">Estadísticas</a></li>
@@ -19,21 +21,10 @@
         </ul>
     </div>
     
-    <div id="config-menu" class="config-menu" style="display:none;"> 
-        <h3>Configuración</h3>
-        <label for="background-file">Sube un fondo (imagen o video):</label>
-        <input type="file" id="background-file" accept="image/*,video/mp4" />
-        <button onclick="applyLocalBackground()">Aplicar fondo</button>
-        <h3>Cambiar imagen</h3>
-        <label for="avatar-file">Sube una imagen de avatar:</label>
-        <input type="file" id="avatar-file" accept="image/*" />
-        <button onclick="applyAvatar()">Actualizar Avatar</button>
-    </div>
-    
     <div class="content">
         <nav class="navbar">
-            <div class="navbar-left">
-                <h1>Dashboard</h1>
+            <div>
+                <h1></h1>
             </div>
             <div class="navbar-right">
                 <div class="user-icon" onclick="toggleLogoutMenu()">
@@ -61,6 +52,17 @@
             <h2>Mis Videos</h2>
             <div id="video-container"></div> 
         </div>
+    </div>
+
+    <div id="config-menu" class="config-menu" style="display:none;"> 
+        <h3>Configuración</h3>
+        <label for="background-file">Sube un fondo (imagen o video):</label>
+        <input type="file" id="background-file" accept="image/*,video/mp4" />
+        <button onclick="applyLocalBackground()">Aplicar fondo</button>
+        <h3>Cambiar imagen</h3>
+        <label for="avatar-file">Sube una imagen de avatar:</label>
+        <input type="file" id="avatar-file" accept="image/*" />
+        <button onclick="applyAvatar()">Actualizar Avatar</button>
     </div>
 
     <script src="video.js"></script> 
