@@ -210,6 +210,32 @@ app.post('/share-video', verifyToken, async (req, res) => {
     }
 });
 
+app.post('/unshare-video', verifyToken, async (req, res) => {
+    try {
+        const { videoId } = req.body;
+        const video = await Video.findById(videoId);
+        if (!video) return res.status(404).json({ error: 'Video no encontrado' });
+
+        if (!video.sharedWithCommunity) {
+            return res.status(400).json({ error: 'Este video no está compartido' });
+        }
+
+        // Solo el dueño puede dejar de compartir
+        if (video.userId.toString() !== req.user.id) {
+            return res.status(403).json({ error: 'No autorizado para dejar de compartir este video' });
+        }
+
+        video.sharedWithCommunity = false;
+        await video.save();
+
+        res.json({ message: 'Video dejado de compartir', video });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al dejar de compartir video' });
+    }
+});
+
+
 app.get('/community-videos', async (req, res) => {
     try {
         const videos = await Video.find({ sharedWithCommunity: true }).populate('userId', 'name');

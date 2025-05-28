@@ -78,7 +78,10 @@ function loadVideos() {
                     <div class="video-info">
                         <p>${video.description}</p>
                     </div>
-                    <button onclick="shareVideo('${video._id}')">Compartir</button>
+                    <button id="btn-share-${video._id}" onclick="toggleShareVideo('${video._id}', ${video.sharedWithCommunity})">
+  ${video.sharedWithCommunity ? 'Dejar de compartir' : 'Compartir'}
+</button>
+
                 `;
                 videoContainer.appendChild(videoElement);
             });
@@ -332,10 +335,41 @@ function sendMessage(videoId, receiverId) {
     .then(res => res.json())
     .then(data => {
         alert(data.message || 'Mensaje enviado');
-        document.getElementById(`msg-${videoId}`).value = ''; // Limpiar textarea
+        document.getElementById(`msg-${videoId}`).value = ''; // Limpiar el textarea
     })
     .catch(error => {
         console.error('Error al enviar mensaje', error);
         alert('Error al enviar el mensaje');
+    });
+}
+
+function toggleShareVideo(videoId, isCurrentlyShared) {
+    const url = isCurrentlyShared ? 'http://localhost:5000/unshare-video' : 'http://localhost:5000/share-video';
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ videoId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert(data.message);
+            const btn = document.getElementById(`btn-share-${videoId}`);
+            if (btn) {
+                const newState = !isCurrentlyShared;
+                btn.textContent = newState ? 'Dejar de compartir' : 'Compartir';
+                btn.setAttribute('onclick', `toggleShareVideo('${videoId}', ${newState})`);
+            }
+        } else {
+            alert('Error: ' + (data.error || 'No se pudo cambiar estado'));
+        }
+    })
+    .catch(error => {
+        console.error('Error al cambiar estado de compartir:', error);
+        alert('Error al cambiar estado de compartir');
     });
 }
