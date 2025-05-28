@@ -2,13 +2,12 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden; /* Evita scroll global */
+  overflow: hidden; 
 }
 
 body {
   font-family: Arial, sans-serif;
   background-color: #838385;
-  /* Ya no centramos con flex porque usamos fixed en layout */
   margin: 0;
 }
 
@@ -55,7 +54,6 @@ a {
   color: #ee774b;
 }
 
-/* Sidebar fijo */
 .sidebar {
   width: 250px;
   background-color: #333;
@@ -94,7 +92,6 @@ a {
   background-color: #575757;
 }
 
-/* Navbar fijo */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -104,7 +101,7 @@ a {
   padding: 15px 20px;
   position: fixed;
   top: 0;
-  left: 250px; /* justo al lado del sidebar */
+  left: 250px; 
   right: 0;
   height: 60px;
   box-sizing: border-box;
@@ -112,15 +109,15 @@ a {
 }
 
 .navbar-left {
-  margin: 0;       /* sin margen */
-  padding: 0;      /* sin padding */
+  margin: 0;       
+  padding: 0;      
 }
 
 .navbar-left h1 {
   font-size: 24px;
   margin: 0;
   padding: 0;
-  text-align: center; /* centra el texto dentro del h1 */
+  text-align: center; 
 }
 
 .navbar-right {
@@ -169,22 +166,22 @@ a {
   display: block;
 }
 
-/* Contenido principal ajustado para no tapar sidebar ni navbar */
+
 .content {
   position: fixed;
-  top: 60px; /* debajo navbar */
-  left: 250px; /* al lado sidebar */
+  top: 60px; 
+  left: 250px; 
   right: 0;
   bottom: 0;
   padding: 20px;
   box-sizing: border-box;
   overflow-y: auto;
-  background-color: #838385; /* o transparente si quieres */
+  background-color: #838385; 
   color: white;
   z-index: 1;
 }
 
-/* Video o imagen de fondo dentro de .content */
+
 #bg-video {
   position: absolute !important;
   top: 0 !important;
@@ -196,12 +193,12 @@ a {
   pointer-events: none !important;
 }
 
-/* Ajustes para el contenido dentro de .content */
+
 .dashboard-content {
-  margin-top: 0; /* no necesitamos margen porque content ya está desplazado */
+  margin-top: 0; 
 }
 
-/* Video list y video container encima del fondo */
+
 .video-list, #video-container {
   position: relative;
   z-index: 10;

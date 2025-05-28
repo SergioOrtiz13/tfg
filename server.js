@@ -197,8 +197,6 @@ app.post('/share-video', verifyToken, async (req, res) => {
         const { videoId } = req.body;
         const video = await Video.findById(videoId);
         if (!video) return res.status(404).json({ error: 'Video no encontrado' });
-
-        // Asegurarse de que el video solo pueda ser compartido una vez
         if (video.sharedWithCommunity) {
             return res.status(400).json({ error: 'Este video ya ha sido compartido con la comunidad' });
         }
@@ -307,7 +305,7 @@ app.get('/messages', verifyToken, async (req, res) => {
 
 const avatarStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, 'public', 'img', 'icon')); // ruta correcta relativa al proyecto
+        cb(null, path.join(__dirname, 'public', 'img', 'icon')); 
     },
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);

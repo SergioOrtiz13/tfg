@@ -7,11 +7,35 @@
     <link rel="stylesheet" href="comunidad.css">
 </head>
 <body>
-    <div class="navbar">
+    <div class="sidebar">
+    <div class="navbar-left">
         <h1>Comunidad</h1>
     </div>
+    <ul>
+        <li><a href="dashboard.html">Inicio</a></li>
+        <li><a href="normas.html">Normas</a></li>
+        <li><a href="mensajes.html">Mensajes</a></li>
+    </ul>
+</div>
+
+    <div class="navbar">
+  <div class="navbar-left">
+  </div>
+  <div class="navbar-right">
+    <div class="user-icon" onclick="toggleLogoutMenu()">
+      <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Usuario" />
+      <div id="logout-menu" class="logout-menu">
+        <button onclick="logout()">Cerrar sesión</button>
+        <button onclick="toggleUploadForm()">Subir video</button>
+      </div>
+    </div>
+  </div>
+</div>
     
+    <div class="content">
     <div id="community-video-list" class="video-list"></div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
     <script src="comunidad.js"></script>
 </body>

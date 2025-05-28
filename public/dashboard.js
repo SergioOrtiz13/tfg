@@ -237,9 +237,6 @@ function applyAvatar() {
     });
 }
 
-
-// Agregamos las funciones que faltaban con el mismo estilo:
-
 function fetchCommunityVideos() {
     fetch('http://localhost:5000/community-videos', {
         method: 'GET',

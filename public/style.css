@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   position: relative;
-  min-height: 100vh; /* asegura altura */
+  min-height: 100vh; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,7 +11,7 @@ body {
 
 body::before {
   content: "";
-  position: fixed; /* fijo */
+  position: fixed; 
   top: 0;
   left: 0;
   width: 100vw;
@@ -21,7 +21,7 @@ body::before {
   background-size: cover;
   background-position: center;
   z-index: -1; /* detrás del contenido */
-  filter: brightness(0.75); /* opcional, oscurece para que texto se lea mejor */
+  filter: brightness(0.75); 
 }
 
 
@@ -30,7 +30,7 @@ body::before {
     top: 30px;
     font-size: 3rem;
     font-weight: bold;
-    color: #ee774b; /* Terracota suave */
+    color: #ee774b; 
     text-align: center;
     width: 100%;
     font-family: 'Arial', sans-serif;
@@ -41,10 +41,10 @@ body::before {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 800px; /* aumentado para las dos columnas */
+    max-width: 800px; 
     width: 100%;
-    position: relative; /* si no lo tiene aún */
-    overflow: hidden; /* opcional, para que el video no desborde */
+    position: relative; 
+    overflow: hidden; 
 }
 
 h2 {
@@ -87,9 +87,6 @@ a:hover {
     text-decoration: underline;
 }
 
-/* ------------------------------------ */
-/* NUEVO: FORMULARIO EN DOS COLUMNAS */
-
 .form-columns {
     display: flex;
     gap: 20px;
@@ -118,9 +115,6 @@ a:hover {
 p {
     text-align: justify;
 }
-
-/* ------------------------------------ */
-/* Sidebar */
 
 .sidebar {
     width: 250px;
@@ -158,8 +152,6 @@ p {
 .sidebar a:hover {
     background-color: #575757;
 }
-
-/* Navbar */
 
 .navbar {
     display: flex;
@@ -225,8 +217,6 @@ p {
     display: block;
 }
 
-/* Content */
-
 .content {
     margin-left: 250px;
     margin-top: 80px;
@@ -237,8 +227,6 @@ p {
 .dashboard-content {
     margin-top: 20px;
 }
-
-/* Video container */
 
 #video-container {
     display: flex;
@@ -304,7 +292,6 @@ p {
     background-color: #cc0000;
 }
 
-/* Estilo para el formulario de subir videos */
 .form-upload {
     margin-top: 20px;
     padding: 10px;
@@ -316,40 +303,39 @@ p {
     margin-bottom: 10px;
 }
 
-/* Barra lateral */
 .sidebar {
-    position: fixed;  /* Asegura que la barra lateral permanezca fija */
+    position: fixed;  
     top: 0;
     left: 0;
-    width: 250px;  /* Ajusta el ancho según tus necesidades */
+    width: 250px; 
     height: 100%;
     background-color: #333;
     padding-top: 20px;
-    z-index: 10;  /* Asegura que la barra lateral esté por encima de otros contenidos */
+    z-index: 10;  
 }
 
 /* Menú de configuración */
 .config-menu {
-    position: absolute;  /* Posiciona el menú de configuración sobre el contenido */
-    top: 0;  /* Alineado con el tope de la página */
-    left: 250px;  /* Se coloca justo al lado del sidebar (250px es el ancho de la barra lateral) */
-    width: 300px;  /* Ancho del menú de configuración */
+    position: absolute;  
+    top: 0;  
+    left: 250px;  
+    width: 300px;  
     background-color: #f4f4f4;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    display: none;  /* Inicialmente oculto */
-    z-index: 1000;  /* Asegura que el menú esté por encima del contenido */
+    display: none;  
+    z-index: 1000;  
 }
 
-/* Para que el contenido principal no se solape con el sidebar */
+
 .content {
-    margin-left: 250px;  /* Empuja el contenido hacia la derecha para que no se solape */
+    margin-left: 250px;  
 }
 
 /* Estilos para dispositivos móviles */
 @media (max-width: 768px) {
-    /* Para pantallas medianas (tablets y teléfonos en posición horizontal) */
+   
     
     .sidebar {
         width: 200px;
@@ -365,7 +351,6 @@ p {
         margin-right: 10px;
     }
 
-    /* Colapsar la sidebar en pantallas pequeñas */
     .sidebar {
         width: 200px;
         position: absolute;
@@ -385,19 +370,19 @@ p {
         width: 100%;
     }
 
-    /* Hacer que el formulario ocupe todo el ancho disponible */
+
     .form-container, .dashboard-container {
         max-width: 100%;
         padding: 15px;
     }
 
-    /* Menú de cierre de sesión */
+
     .logout-menu {
         top: 25px;
         right: 10px;
     }
 
-    /* Barra de navegación superior */
+
     .navbar {
         padding: 10px;
     }
@@ -408,7 +393,7 @@ p {
     }
 }
 
-/* Estilos para pantallas pequeñas (móviles) */
+
 @media (max-width: 480px) {
     .sidebar {
         width: 150px;
@@ -429,7 +414,6 @@ p {
     }
 }
 
-/* Responsive - Formulario dos columnas */
 @media (max-width: 768px) {
     .form-columns {
         flex-direction: column;

@@ -1,49 +1,70 @@
-// Decodificando el JWT
 const token = localStorage.getItem('token');
+
 if (token) {
-    const decoded = jwt_decode(token);  // Decodifica el token JWT
-    console.log(decoded); // Aquí puedes ver los datos decodificados del token
+    const decoded = jwt_decode(token);  
+    console.log(decoded); 
 } else {
     alert('No hay token');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    cargarAvatar();
     fetchCommunityVideos();
 });
+
+async function cargarAvatar() {
+    if (!token) return; // No hay sesión
+
+    try {
+        const res = await fetch('http://localhost:5000/dashboard', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+            const avatarUrl = data.user.avatar || 'https://www.w3schools.com/w3images/avatar2.png';
+            const avatarImg = document.querySelector('.user-icon img');
+            if (avatarImg) avatarImg.src = avatarUrl;
+        } else {
+            console.error(data.error);
+        }
+    } catch (err) {
+        console.error('Error cargando avatar:', err);
+    }
+}
 
 function fetchCommunityVideos() {
     fetch('http://localhost:5000/community-videos', {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`  // Agrega el prefijo 'Bearer'
+            'Authorization': `Bearer ${token}`
         }
     })
     .then(response => response.json())
     .then(data => {
         const videoList = document.getElementById('community-video-list');
-videoList.innerHTML = '';
+        videoList.innerHTML = '';
 
-data.forEach(video => {
-    const videoElement = document.createElement('div');
-    videoElement.classList.add('video-item');
-    videoElement.innerHTML = `
-        <h3>${video.title}</h3>
-        <p>Compartido por: ${video.userId.name}</p>
-        <video width="300" controls>
-            <source src="${video.videoUrl}" type="video/mp4">
-            Tu navegador no soporta el formato de video.
-        </video>
-        <button onclick="saveVideo('${video._id}', '${video.userId._id}')">Guardar</button>
-        <details>
-            <summary>Enviar mensaje</summary>
-            <textarea id="msg-${video._id}" rows="2" cols="40" placeholder="Escribe un mensaje..."></textarea>
-            <br>
-            <button onclick="sendMessage('${video._id}', '${video.userId._id}')">Enviar</button>
-        </details>
-    `;
-    videoList.appendChild(videoElement);
-});
-
+        data.forEach(video => {
+            const videoElement = document.createElement('div');
+            videoElement.classList.add('video-item');
+            videoElement.innerHTML = `
+                <h3>${video.title}</h3>
+                <p>Compartido por: ${video.userId.name}</p>
+                <video width="300" controls>
+                    <source src="${video.videoUrl}" type="video/mp4">
+                    Tu navegador no soporta el formato de video.
+                </video>
+                <button onclick="saveVideo('${video._id}', '${video.userId._id}')">Guardar</button>
+                <details>
+                    <summary>Enviar mensaje</summary>
+                    <textarea id="msg-${video._id}" rows="2" cols="40" placeholder="Escribe un mensaje..."></textarea>
+                    <br>
+                    <button onclick="sendMessage('${video._id}', '${video.userId._id}')">Enviar</button>
+                </details>
+            `;
+            videoList.appendChild(videoElement);
+        });
     })
     .catch(error => {
         console.error('Error al cargar los videos de la comunidad', error);
@@ -52,31 +73,26 @@ data.forEach(video => {
 }
 
 function saveVideo(videoId, userId) {
-    const token = localStorage.getItem('token');
-    
     if (!token) {
         alert('Necesitas iniciar sesión para guardar el video.');
         return;
     }
 
-    // Decodificar el token JWT para obtener el id del usuario
     const decodedToken = jwt_decode(token);
-    const currentUserId = decodedToken.id;  // El ID del usuario debe estar en el token
+    const currentUserId = decodedToken.id;
 
-    // Verificamos que se haya extraído correctamente el videoId y el userId
     if (!videoId || !currentUserId) {
         alert('Faltan datos necesarios');
         return;
     }
 
-    // Realizamos la solicitud POST para guardar el video
     fetch('http://localhost:5000/save-video', {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${token}`,  // Asegúrate de usar 'Bearer'
-            'Content-Type': 'application/json'  // Aseguramos que estamos enviando JSON
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ videoId, userId: currentUserId })  // Enviamos los datos correctamente
+        body: JSON.stringify({ videoId, userId: currentUserId })
     })
     .then(response => response.json())
     .then(data => {
@@ -92,13 +108,11 @@ function saveVideo(videoId, userId) {
     });
 }
 
-
-
 function shareVideo(videoId) {
     fetch('http://localhost:5000/share-video', {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,  // Asegúrate de usar 'Bearer'
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ videoId })
@@ -115,7 +129,6 @@ function shareVideo(videoId) {
 
 function sendMessage(videoId, receiverId) {
     const content = document.getElementById(`msg-${videoId}`).value;
-    const token = localStorage.getItem('token');
 
     if (!content.trim()) {
         alert('El mensaje no puede estar vacío');
