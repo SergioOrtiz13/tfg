@@ -55,7 +55,7 @@ function fetchCommunityVideos() {
                     <source src="${video.videoUrl}" type="video/mp4">
                     Tu navegador no soporta el formato de video.
                 </video>
-                <button onclick="saveVideo('${video._id}', '${video.userId._id}')">Guardar</button>
+                
                 <details>
                     <summary>Enviar mensaje</summary>
                     <textarea id="msg-${video._id}" rows="2" cols="40" placeholder="Escribe un mensaje..."></textarea>
